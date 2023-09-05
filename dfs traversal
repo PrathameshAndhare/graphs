@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void dfstrav(int node,vector<vector<int> >&adj,vector<int>&vis,vector<int>&ans){
+    vis[node]=1;
+    ans.push_back(node);
+    for(auto it:adj[node]){
+        if(!vis[it]){
+            dfstrav(it,adj,vis,ans);
+        }
+    }
+}
+
+
+vector<int>dfs(int n,vector<vector<int> >&adj){
+    vector<int>vis(n+1);
+    vector<int>ans;
+    vis[0]=1;
+    int start=0;
+    dfstrav(start,adj,vis,ans);
+    return ans;
+}
+
+
+void add(vector<vector<int> >&adj,int u,int v){
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+}
+
+
+void print(vector<int>v){
+    for(int i=0;i<v.size();i++){
+        cout<<v[i]<<' ';
+    }
+    cout<<endl;
+}
+
+
+int main(){
+    int n,m;
+    cin>>n>>m;
+    vector<vector<int> >adj(n+1,vector<int>());
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        add(adj,x,y);
+    }
+
+    vector<int>ans=dfs(n,adj);
+    print(ans);
+
+}
