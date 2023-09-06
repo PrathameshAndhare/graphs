@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void bfs(int row,int col,vector<vector<int>>&adj,vector<vector<int>>&grid){
+    adj[row][col]=1;
+    int n=grid.size();
+    int m=grid[0].size();
+    queue<pair<int,int>>q;
+    q.push({row,col});
+    while(!q.empty()){
+        int r=q.front().first;
+        int c=q.front().second;
+        q.pop();
+
+        for(int delrow=-1;delrow<=1;delrow++){
+            for(int delcol=-1;delcol<=1;delcol++){
+                int nrow=r+delrow;
+                int ncol=c+delcol;
+                if(nrow>=0&&nrow<n&&ncol>=0&&ncol<m&&grid[nrow][ncol]==1&&adj[nrow][ncol]==0){
+                    adj[nrow][ncol]=1;
+                    q.push({nrow,ncol});
+                }
+
+            }
+        }
+    }
+}
+
+int numofIslands(vector<vector<int>>grid){
+    int row=grid.size();
+    int col=grid[0].size();
+    int ans=0;
+    vector<vector<int>>adj(row,vector<int>(col,0));
+
+    for(int i=0;i<row;i++){
+        for(int j=0;j<col;j++){
+            if(grid[i][j] == 1 && adj[i][j] == 0){
+                ans++;
+                bfs(i,j,adj,grid);
+            }
+        }
+    }
+    return ans;
+}
